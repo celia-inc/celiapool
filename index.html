@@ -1,39 +1,195 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Celia Pool | Business Edits & Sustainability Entrepreneur</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            scroll-behavior: smooth;
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Celia Pool</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            serif: ['Playfair Display', 'serif']
+          }
         }
-        .font-serif {
-            font-family: 'Playfair Display', serif;
-        }
-        /* Custom dark mode transition */
-        .theme-transition {
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
-    </style>
-<script type="importmap">
-{
-  "imports": {
-    "react": "https://esm.sh/react@^19.2.3",
-    "react/": "https://esm.sh/react@^19.2.3/",
-    "framer-motion": "https://esm.sh/framer-motion@^12.29.0",
-    "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.3/"
-  }
-}
-</script>
+      }
+    }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+  </style>
 </head>
-<body class="theme-transition">
-    <div id="root"></div>
+
+<body class="bg-zinc-950 text-zinc-100 font-sans transition-colors duration-300">
+
+  <!-- Header -->
+  <header class="max-w-5xl mx-auto px-6 py-10 flex justify-between items-center">
+    <h1 class="text-lg font-medium">Celia Pool</h1>
+    <button id="themeToggle" class="text-sm opacity-70 hover:opacity-100 transition">
+      Toggle light
+    </button>
+  </header>
+
+  <!-- Intro -->
+  <section class="max-w-3xl mx-auto px-6 py-20">
+    <p class="text-xl leading-relaxed">
+      I am Celia Pool, a consumer product and sustainability entrepreneur who builds ideas into real businesses.
+      I co founded DAME, an award winning women’s health brand, and now focus on Business Edits, where I work with founders
+      to sharpen thinking, strengthen strategy and build things that stand up in the real world.
+    </p>
+
+    <p class="mt-8 italic opacity-80 font-serif">
+      “I am interested in work that holds up when you look at it closely.”
+    </p>
+  </section>
+
+  <!-- What I Do -->
+  <section class="max-w-3xl mx-auto px-6 py-20 border-t border-zinc-800">
+    <h2 class="text-2xl font-serif mb-6">What I Do Now</h2>
+
+    <h3 class="text-lg font-medium mb-4">Business Edits</h3>
+
+    <p class="leading-relaxed mb-6">
+      Business Edits is my main focus. I work closely with founders, operators and small teams building consumer products,
+      platforms or services who want to make better decisions earlier.
+    </p>
+
+    <p class="leading-relaxed mb-6">
+      The work is practical and collaborative. It often sits where things feel slightly stuck or fuzzy.
+    </p>
+
+    <ul class="list-disc list-inside space-y-2 mb-6">
+      <li>Strategy and decision making</li>
+      <li>Brand and narrative clarity</li>
+      <li>Product and commercial thinking</li>
+      <li>Structure, systems and priorities</li>
+    </ul>
+
+    <p class="leading-relaxed mb-6">
+      I bring an operator’s perspective shaped by building and running a venture backed consumer brand, owning P and L,
+      managing teams and raising capital. I use AI daily to accelerate research, stress test ideas and improve execution,
+      but judgement always comes first.
+    </p>
+
+    <p class="italic opacity-80 font-serif">
+      “Tools change. Clear thinking still does the heavy lifting.”
+    </p>
+  </section>
+
+  <!-- DAME -->
+  <section class="max-w-3xl mx-auto px-6 py-20 border-t border-zinc-800">
+    <h2 class="text-2xl font-serif mb-6">Selected Work</h2>
+
+    <h3 class="text-lg font-medium mb-4">DAME</h3>
+
+    <p class="leading-relaxed mb-6">
+      I co founded DAME to address two problems hiding in plain sight: poor design in women’s health products and the
+      environmental cost of period care.
+    </p>
+
+    <p class="leading-relaxed mb-6">
+      DAME created the world’s first reusable tampon applicator and built a global consumer brand around women’s health
+      and sustainability.
+    </p>
+
+    <ul class="list-disc list-inside space-y-2 mb-6">
+      <li>Launched via Kickstarter, exceeding the funding target by 600 percent</li>
+      <li>Global press and product awards including Dezeen</li>
+      <li>National retail listings with Waitrose, Sainsbury’s, Boots, Ocado, Selfridges, ASOS and Next</li>
+      <li>Reached 5 percent revenue share from Tampax within six months of launch in Waitrose</li>
+      <li>Customers in more than 50 countries</li>
+      <li>Ecommerce growth of 150 percent year on year</li>
+      <li>Raised over £2m from angels, corporate venture capital, family offices and crowdfunding, with Sky as an early investor</li>
+      <li>Early B Corp certification</li>
+      <li>Prevented more than 20 million disposable applicators from entering landfill</li>
+    </ul>
+
+    <p class="leading-relaxed">
+      Alongside the commercial work, I built and led the team, set strategy, managed culture, and owned company wide finance
+      and P and L. I also founded DAMEchangers, an innovation camp for 16 to 17 year old girls at Oxford University, and
+      represented the brand through public speaking, media and UK Government taskforces.
+    </p>
+  </section>
+
+  <!-- How I Think -->
+  <section class="max-w-3xl mx-auto px-6 py-20 border-t border-zinc-800">
+    <h2 class="text-2xl font-serif mb-6">How I Think</h2>
+
+    <p class="leading-relaxed mb-6">
+      I am sceptical by default and optimistic by choice.
+    </p>
+
+    <ul class="list-disc list-inside space-y-2 mb-6">
+      <li>Framing the right problem before chasing solutions</li>
+      <li>Making complexity simpler without losing meaning</li>
+      <li>Designing systems that last longer than enthusiasm</li>
+      <li>Using evidence and numbers as allies, not threats</li>
+    </ul>
+
+    <p class="leading-relaxed mb-6">
+      I am comfortable changing my mind when something better shows up. Experience has taught me that confidence comes
+      from learning fast, not pretending to know everything.
+    </p>
+
+    <p class="italic opacity-80 font-serif">
+      “Most mistakes start as assumptions that were never questioned.”
+    </p>
+  </section>
+
+  <!-- Awards -->
+  <section class="max-w-3xl mx-auto px-6 py-20 border-t border-zinc-800">
+    <h2 class="text-2xl font-serif mb-6">Awards and Recognition</h2>
+
+    <ul class="list-disc list-inside space-y-2">
+      <li>Veuve Clicquot Bold Woman Award</li>
+      <li>Innovate UK Women in Innovation Award</li>
+      <li>Royal Academy of Engineering Shott Award</li>
+    </ul>
+  </section>
+
+  <!-- Connect -->
+  <section class="max-w-3xl mx-auto px-6 py-20 border-t border-zinc-800">
+    <h2 class="text-2xl font-serif mb-6">Connect</h2>
+
+    <p class="leading-relaxed mb-6">
+      If you are building something real, thinking seriously about sustainability, consumer products or the practical use
+      of AI, I am always open to a thoughtful conversation.
+    </p>
+
+    <ul class="space-y-2">
+      <li>
+        <a href="mailto:celiapool7@gmail.com" class="underline hover:opacity-70">Email</a>
+      </li>
+      <li>
+        <a href="https://www.linkedin.com/in/celia-pool-aa05bb99/" target="_blank" class="underline hover:opacity-70">
+          LinkedIn
+        </a>
+      </li>
+    </ul>
+  </section>
+
+  <footer class="text-center text-sm opacity-50 py-10">
+    © Celia Pool
+  </footer>
+
+  <script>
+    const toggle = document.getElementById('themeToggle');
+    toggle.addEventListener('click', () => {
+      document.documentElement.classList.toggle('dark');
+    });
+  </script>
+
 </body>
 </html>
