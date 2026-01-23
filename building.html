@@ -31,14 +31,11 @@
       padding: 24px 16px 80px;
     }
 
-    header {
-      margin-bottom: 32px;
-    }
+    header { margin-bottom: 32px; }
 
     h1 {
       margin: 0 0 8px;
       font-size: 2rem;
-      letter-spacing: 0.3px;
     }
 
     .meta {
@@ -64,37 +61,15 @@
       border: 1px solid rgba(255,255,255,0.06);
     }
 
-    .editor-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 12px;
-      color: var(--muted);
-      font-size: 0.9rem;
-    }
-
     textarea {
       width: 100%;
       min-height: 120px;
-      resize: vertical;
       background: #0c0c12;
       color: var(--text);
       border: 1px solid rgba(255,255,255,0.08);
       border-radius: 10px;
       padding: 12px;
       font-family: inherit;
-      font-size: 1rem;
-    }
-
-    textarea:focus {
-      outline: none;
-      border-color: var(--accent);
-    }
-
-    .actions {
-      display: flex;
-      justify-content: flex-end;
-      margin-top: 12px;
     }
 
     button {
@@ -102,49 +77,33 @@
       color: #fff;
       border: none;
       border-radius: 10px;
-      padding: 10px 16px;
-      font-size: 0.95rem;
+      padding: 8px 14px;
       cursor: pointer;
-      transition: transform 0.15s ease, box-shadow 0.15s ease;
-      box-shadow: 0 6px 20px rgba(139,92,246,0.25);
-    }
-
-    button:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 10px 28px rgba(139,92,246,0.35);
     }
 
     .timeline {
       position: relative;
-      margin-top: 40px;
       padding-left: 28px;
     }
 
     .timeline::before {
       content: "";
       position: absolute;
-      top: 0;
       left: 12px;
       width: 2px;
       height: 100%;
       background: linear-gradient(to bottom, var(--accent), transparent);
     }
 
-    .entry {
-      position: relative;
-      margin-bottom: 24px;
-      animation: fadeInUp 0.25s ease;
-    }
+    .entry { margin-bottom: 24px; }
 
     .dot {
       position: absolute;
-      left: -2px;
-      top: 18px;
+      left: 6px;
       width: 12px;
       height: 12px;
       background: var(--accent);
       border-radius: 50%;
-      box-shadow: 0 0 0 4px var(--accent-soft);
     }
 
     .entry-card {
@@ -157,37 +116,28 @@
     .entry-meta {
       display: flex;
       justify-content: space-between;
-      align-items: center;
-      margin-bottom: 6px;
       font-size: 0.85rem;
       color: var(--muted);
     }
 
-    .delete {
-      background: transparent;
-      color: var(--danger);
-      box-shadow: none;
-      padding: 0;
-      font-size: 0.8rem;
+    .reactions {
+      display: flex;
+      gap: 12px;
+      margin-top: 10px;
+      font-size: 0.9rem;
     }
 
-    .delete:hover { transform: none; box-shadow: none; }
+    .reaction {
+      cursor: pointer;
+      opacity: 0.85;
+    }
+
+    .reaction.used { opacity: 0.4; pointer-events: none; }
 
     .empty {
       text-align: center;
       color: var(--muted);
       margin-top: 60px;
-      font-size: 1rem;
-    }
-
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(6px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @media (max-width: 600px) {
-      h1 { font-size: 1.6rem; }
-      .meta { gap: 10px; }
     }
   </style>
 </head>
@@ -198,18 +148,12 @@
       <div class="meta">
         <div class="stat">Day <span id="dayCounter"></span></div>
         <div class="stat">Streak: <span id="streak"></span> days</div>
-        <div class="stat">Started <span id="startDate"></span></div>
       </div>
     </header>
 
     <section class="editor">
-      <div class="editor-header">
-        <span>Today: <span id="todayDate"></span></span>
-      </div>
-      <textarea id="updateText" placeholder="What did you build or learn today?"></textarea>
-      <div class="actions">
-        <button id="postBtn">Post Update</button>
-      </div>
+      <textarea id="updateText" placeholder="What did you build today?"></textarea>
+      <button id="postBtn">Post Update</button>
     </section>
 
     <section id="timeline" class="timeline"></section>
@@ -217,112 +161,78 @@
   </div>
 
   <script>
-    // CONFIG
     const PROJECT_NAME = "My AI Startup";
-    const START_DATE = "2024-12-20"; // YYYY-MM-DD
+    const START_DATE = "2024-12-20";
 
-    const storageKey = "build_in_public_updates";
+    const storageKey = "build_updates";
+    const reactionKey = "build_reactions";
+    const visitorId = localStorage.getItem("visitor_id") || crypto.randomUUID();
+    localStorage.setItem("visitor_id", visitorId);
 
-    const projectNameEl = document.getElementById("projectName");
-    const dayCounterEl = document.getElementById("dayCounter");
-    const streakEl = document.getElementById("streak");
-    const startDateEl = document.getElementById("startDate");
-    const todayDateEl = document.getElementById("todayDate");
-    const timelineEl = document.getElementById("timeline");
-    const emptyStateEl = document.getElementById("emptyState");
-    const updateTextEl = document.getElementById("updateText");
-
-    projectNameEl.textContent = PROJECT_NAME;
-
-    const start = new Date(START_DATE);
-    startDateEl.textContent = start.toDateString();
-
-    const today = new Date();
-    todayDateEl.textContent = today.toDateString();
+    document.getElementById("projectName").textContent = PROJECT_NAME;
 
     function daysBetween(a, b) {
-      const diff = b.setHours(0,0,0,0) - a.setHours(0,0,0,0);
-      return Math.floor(diff / (1000 * 60 * 60 * 24)) + 1;
+      return Math.floor((b - a) / 86400000) + 1;
     }
 
-    dayCounterEl.textContent = daysBetween(new Date(START_DATE), new Date());
+    document.getElementById("dayCounter").textContent = daysBetween(new Date(START_DATE), new Date());
 
-    function loadUpdates() {
-      return JSON.parse(localStorage.getItem(storageKey) || "[]");
+    function load(key) {
+      return JSON.parse(localStorage.getItem(key) || "{}");
     }
 
-    function saveUpdates(updates) {
-      localStorage.setItem(storageKey, JSON.stringify(updates));
-    }
-
-    function calculateStreak(updates) {
-      if (updates.length === 0) return 0;
-      let streak = 0;
-      let current = new Date();
-
-      for (const update of updates) {
-        const d = new Date(update.date);
-        if (current.toDateString() === d.toDateString()) {
-          streak++;
-          current.setDate(current.getDate() - 1);
-        } else {
-          break;
-        }
-      }
-      return streak;
+    function save(key, val) {
+      localStorage.setItem(key, JSON.stringify(val));
     }
 
     function render() {
-      const updates = loadUpdates();
-      timelineEl.innerHTML = "";
+      const updates = JSON.parse(localStorage.getItem(storageKey) || "[]");
+      const reactions = load(reactionKey);
+      const timeline = document.getElementById("timeline");
+      timeline.innerHTML = "";
 
-      if (updates.length === 0) {
-        emptyStateEl.hidden = false;
-      } else {
-        emptyStateEl.hidden = true;
-      }
-
-      streakEl.textContent = calculateStreak(updates);
+      document.getElementById("emptyState").hidden = updates.length > 0;
 
       updates.forEach((u, i) => {
-        const entry = document.createElement("div");
-        entry.className = "entry";
+        const r = reactions[u.id] || { '🔥': [], '💪': [], '🚀': [] };
 
-        const dayNum = daysBetween(new Date(START_DATE), new Date(u.date));
-
-        entry.innerHTML = `
-          <div class="dot"></div>
+        const el = document.createElement("div");
+        el.className = "entry";
+        el.innerHTML = `
           <div class="entry-card">
-            <div class="entry-meta">
-              <span>${new Date(u.date).toDateString()} · Day ${dayNum}</span>
-              <button class="delete">Delete</button>
+            <div class="entry-meta">${new Date(u.date).toDateString()} · Day ${daysBetween(new Date(START_DATE), new Date(u.date))}</div>
+            <div>${u.text}</div>
+            <div class="reactions">
+              ${['🔥','💪','🚀'].map(e => `
+                <span class="reaction ${r[e].includes(visitorId) ? 'used' : ''}" data-emoji="${e}">
+                  ${e} ${r[e].length}
+                </span>
+              `).join('')}
             </div>
-            <div>${u.text.replace(/\n/g, "<br>")}</div>
-          </div>
-        `;
+          </div>`;
 
-        entry.querySelector(".delete").onclick = () => {
-          updates.splice(i, 1);
-          saveUpdates(updates);
-          render();
-        };
+        el.querySelectorAll('.reaction').forEach(btn => {
+          btn.onclick = () => {
+            const emoji = btn.dataset.emoji;
+            r[emoji].push(visitorId);
+            reactions[u.id] = r;
+            save(reactionKey, reactions);
+            render();
+          };
+        });
 
-        timelineEl.appendChild(entry);
+        timeline.appendChild(el);
       });
     }
 
     document.getElementById("postBtn").onclick = () => {
-      const text = updateTextEl.value.trim();
+      const text = updateText.value.trim();
       if (!text) return;
 
-      const updates = loadUpdates();
-      updates.unshift({
-        date: new Date().toISOString(),
-        text
-      });
-
-      saveUpdates(updates);
-      updateTextEl.value = "";
+      const updates = JSON.parse(localStorage.getItem(storageKey) || "[]");
+      updates.unshift({ id: crypto.randomUUID(), date: new Date(), text });
+      localStorage.setItem(storageKey, JSON.stringify(updates));
+      updateText.value = "";
       render();
     };
 
@@ -330,3 +240,4 @@
   </script>
 </body>
 </html>
+Add supporter reactions
